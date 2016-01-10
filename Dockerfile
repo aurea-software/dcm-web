@@ -67,6 +67,15 @@ RUN /etc/init.d/postgresql start && \
 
 USER root
 
+# Enterprise Prerequisites
+ENV CLASSPATH /usr/local/apache-ant-${ANT_VERSION}/lib/*:$CLASSPATH
+COPY installer/DCMEnterpriseInstaller.jar ${MCC_DIR}
+COPY installer/dcminstall.sh /usr/local/dcm/
+
+# Easier Feature
+RUN /etc/init.d/postgresql start && \
+    bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
+
 # DCM Port
 EXPOSE 8080
 
