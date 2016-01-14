@@ -74,6 +74,7 @@ COPY installer/dcminstall.sh /usr/local/dcm/
 
 # Easier Feature
 RUN ls /mcc/Apps/PrimaryComp/resources/mods
+RUN ls /mcc/resources/mods/
 RUN /etc/init.d/postgresql start && \
     bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
 
