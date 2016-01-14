@@ -26,8 +26,8 @@ RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apac
 ENV CATALINA_HOME /usr/local/apache-tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 
-# Install PostgreSQL temporarily to install DCM
-RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 && \
+# Install PostgreSQL temporarily to install DCM (key servers: hkp://keyserver.ubuntu.com:80 or hkp://p80.pool.sks-keyservers.net:80)
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 && \
     echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
     apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
 
