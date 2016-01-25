@@ -15,6 +15,16 @@ if [ -z "$POSTGRES_PASSWORD" ]; then
     exit 1
 fi
 
+#if [ -z "$NIPR_USER" ]; then
+#    echo "NIPR_USER environment variable required"
+#    exit 1
+#fi
+
+#if [ -z "$NIPR_PASSWORD" ]; then
+#    echo "NIPR_PASSWORD environment variable required"
+#    exit 1
+#fi
+
 generatedb() {
     echo "GENERATING DATABASE..."
 
@@ -86,6 +96,14 @@ patchproperties() {
     sed -i "s#name=\"JDBC_URL\" value=\"[^\\""]*\"#name=\"JDBC_URL\" value=\"jdbc:postgresql://${POSTGRES_CONNECTION}\"#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/mcc.xml
     sed -i "s#name=\"DB_USERNAME\" value=\"[^\\""]*\"#name=\"DB_USERNAME\" value=\"${POSTGRES_USERNAME}\"#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/mcc.xml
     sed -i "s#name=\"DB_PASSWORD\" value=\"[^\\""]*\"#name=\"DB_PASSWORD\" value=\"${POSTGRES_PASSWORD}\"#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/mcc.xml
+    
+    # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+
+    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
 }
 
 if [ "$GENERATE_DATABASE" == "TRUE" ]; then
