@@ -25,6 +25,11 @@ fi
 #    exit 1
 #fi
 
+#if [ -z "NIPR_BETA" ]; then
+#    echo "NIPR_BETA environment variable required"
+#    exit 1
+#fi
+
 generatedb() {
     echo "GENERATING DATABASE..."
 
@@ -96,7 +101,11 @@ patchproperties() {
     sed -i "s#name=\"JDBC_URL\" value=\"[^\\""]*\"#name=\"JDBC_URL\" value=\"jdbc:postgresql://${POSTGRES_CONNECTION}\"#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/mcc.xml
     sed -i "s#name=\"DB_USERNAME\" value=\"[^\\""]*\"#name=\"DB_USERNAME\" value=\"${POSTGRES_USERNAME}\"#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/mcc.xml
     sed -i "s#name=\"DB_PASSWORD\" value=\"[^\\""]*\"#name=\"DB_PASSWORD\" value=\"${POSTGRES_PASSWORD}\"#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/mcc.xml
-    
+}
+
+patchnipr() {
+    echo "PATCHING NIPR PROPERTIES..."
+
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
     sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
     sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
@@ -104,6 +113,12 @@ patchproperties() {
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
     sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
     sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+    
+    if [ "$NIPR_BETA" == "TRUE" ]; then
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
+        sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
+    else
+    if
 }
 
 if [ "$GENERATE_DATABASE" == "TRUE" ]; then
@@ -113,6 +128,7 @@ else
     mkdir /usr/local/apache-tomcat/webapps/DMS
     unzip -o /usr/local/apache-tomcat/webapps/DMS.war -d /usr/local/apache-tomcat/webapps/DMS
     patchproperties
+    patchnipr
 fi
 
 catalina.sh run
