@@ -114,10 +114,9 @@ patchnipr() {
     sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
     sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
     
+    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
     if [ "$NIPR_BETA" == "TRUE" ]; then
-        # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
         sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
-    else
     fi
 }
 
