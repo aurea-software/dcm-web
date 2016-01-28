@@ -116,7 +116,7 @@ patchnipr() {
     
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
     if [ "$NIPR_BETA" == "TRUE" ]; then
-        sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
+        sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
     fi
 }
 
