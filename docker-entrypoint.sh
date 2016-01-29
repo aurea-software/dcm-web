@@ -26,11 +26,16 @@ generatedb() {
     # Regenerate WAR with database
     cd ${MCC_DIR}
     ant Install -Denvironment=${DCM_ENV}
-    cp ${MCC_DIR}/buildoutput/DMS.war /usr/local/apache-tomcat/webapps/
 }
 
-patchproperties() {
-    echo "PATCHING PROPERTIES..."
+extractdmswar() {
+    cp ${MCC_DIR}/buildoutput/DMS.war /usr/local/apache-tomcat/webapps/
+    mkdir /usr/local/apache-tomcat/webapps/DMS
+    unzip -o /usr/local/apache-tomcat/webapps/DMS.war -d /usr/local/apache-tomcat/webapps/DMS
+}
+
+patchdbproperties() {
+    echo "PATCHING DB PROPERTIES..."
 
     # DMS/WEB-INF/classes/CMEngine.properties
     sed -i "s#JDBC_URL=.*#JDBC_URL=jdbc:postgresql://${POSTGRES_CONNECTION}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/CMEngine.properties
@@ -88,13 +93,32 @@ patchproperties() {
     sed -i "s#name=\"DB_PASSWORD\" value=\"[^\\""]*\"#name=\"DB_PASSWORD\" value=\"${POSTGRES_PASSWORD}\"#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/mcc.xml
 }
 
-if [ "$GENERATE_DATABASE" == "TRUE" ]; then
+patchnipr() {
+    echo "PATCHING NIPR PROPERTIES..."
+
+    # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+
+    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+    
+    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
+    if [ "$NIPR_BETA" == "true" ]; then
+        sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
+    fi
+}
+
+if [ "$GENERATE_DATABASE" == "true" ]; then
     generatedb
+    extractdmswar
+    patchdbproperties
+    patchnipr
 else
-    cp ${MCC_DIR}/buildoutput/DMS.war /usr/local/apache-tomcat/webapps/
-    mkdir /usr/local/apache-tomcat/webapps/DMS
-    unzip -o /usr/local/apache-tomcat/webapps/DMS.war -d /usr/local/apache-tomcat/webapps/DMS
-    patchproperties
+    extractdmswar
+    patchdbproperties
+    patchnipr
 fi
 
 catalina.sh run
