@@ -105,12 +105,12 @@ patchnipr() {
     sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
     
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
-    if [ "$NIPR_BETA" == "true" ]; then
+    if [ "$NIPR_BETA" == "true" -o "$NIPR_BETA" == "TRUE" ]; then
         sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" /usr/local/apache-tomcat/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
     fi
 }
 
-if [ "$GENERATE_DATABASE" == "true" ]; then
+if [ "$GENERATE_DATABASE" == "true" -o "$GENERATE_DATABASE" == "TRUE" ]; then
     generatedb
     extractdmswar
     patchdbproperties
