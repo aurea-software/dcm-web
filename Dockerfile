@@ -68,7 +68,7 @@ RUN /etc/init.d/postgresql start && \
 USER root
 
 # Enterprise Prerequisites
-ENV CLASSPATH /usr/local/apache-ant-${ANT_VERSION}/lib/*:$CLASSPATH
+ENV CLASSPATH /usr/local/apache-ant-${ANT_VERSION}/lib/*:/usr/local/dcm/jdbc/*:$CLASSPATH
 COPY installer/DCMEnterpriseInstaller.jar ${MCC_DIR}
 COPY installer/dcminstall.sh /usr/local/dcm/
 
