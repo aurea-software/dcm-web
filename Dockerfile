@@ -78,7 +78,7 @@ RUN /etc/init.d/postgresql start && \
 EXPOSE 8080
 
 # DCM Volume
-VOLUME ["/usr/local/apache-tomcat/webapps/"]
+VOLUME ["${CATALINA_HOME}/webapps/"]
 
 # Entrypoint
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
