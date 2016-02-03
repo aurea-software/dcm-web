@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CATALINE_BASE = "/var/lib/tomcat7"
+
 if [ -z "$POSTGRES_CONNECTION" ]; then
     echo "POSTGRES_CONNECTION environment variable required"
     exit 1
@@ -14,7 +16,6 @@ if [ -z "$POSTGRES_PASSWORD" ]; then
     echo "POSTGRES_PASSWORD environment variable required"
     exit 1
 fi
-CATALINE_BASE = "/var/lib/tomcat7"
 
 generatedb() {
     echo "GENERATING DATABASE..."
