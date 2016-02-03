@@ -22,6 +22,7 @@ ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
 RUN apt-get install -y tomcat7
 
 ENV CATALINA_HOME /usr/share/tomcat7
+ENV CATALINA_BASE /var/lib/tomcat7
 ENV PATH $CATALINA_HOME/bin:$PATH
 
 # Install PostgreSQL temporarily to install DCM (key servers: hkp://keyserver.ubuntu.com:80 or hkp://p80.pool.sks-keyservers.net:80)
@@ -78,7 +79,7 @@ RUN /etc/init.d/postgresql start && \
 EXPOSE 8080
 
 # DCM Volume
-VOLUME ["${CATALINA_HOME}/webapps/"]
+VOLUME ["${CATALINA_BASE}/webapps/"]
 
 # Entrypoint
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
