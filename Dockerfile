@@ -58,7 +58,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
 
 # Generate war
 WORKDIR ${MCC_DIR}
-#RUN ant Install -Denvironment=$DCM_ENV
+RUN ant Install -Denvironment=$DCM_ENV
 
 USER root
 
@@ -68,7 +68,7 @@ COPY installer/DCMEnterpriseInstaller.jar ${MCC_DIR}
 COPY installer/dcminstall.sh /usr/local/dcm/
 
 # Easier Feature
-#RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
+RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
 
 # DCM Port
 EXPOSE 8080
