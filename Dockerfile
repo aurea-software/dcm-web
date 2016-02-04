@@ -1,5 +1,5 @@
 FROM java:7
-MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
+MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com>
 
 ENV ANT_VERSION 1.7.1
 ENV TOMCAT_VERSION 7.0.67
@@ -7,7 +7,6 @@ ENV MCC_DIR /mcc
 ENV DCM_ENV DCM
 
 WORKDIR /usr/local/
-RUN apt-get update -y
 
 # Install ANT7
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
@@ -19,10 +18,12 @@ ENV ANT_HOME /usr/bin/ant
 ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
 
 # Install Tomcat7
-RUN apt-get install -y tomcat7
+RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    tar -zxf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    rm -rf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    mv apache-tomcat-$TOMCAT_VERSION apache-tomcat
 
-ENV CATALINA_HOME /usr/share/tomcat7
-ENV CATALINA_BASE /var/lib/tomcat7
+ENV CATALINA_HOME /usr/local/apache-tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 
 # Install PostgreSQL temporarily to install DCM (key servers: hkp://keyserver.ubuntu.com:80 or hkp://p80.pool.sks-keyservers.net:80)
@@ -43,7 +44,7 @@ RUN mkdir -p /usr/local/dcm
 COPY installer/setup.jar /usr/local/dcm/
 RUN mkdir -p /usr/local/dcm/jdbc
 COPY /jdbc/*.jar /usr/local/dcm/jdbc/
-COPY /jdbc/*.jar $CATALINA_HOME/lib/
+COPY /jdbc/*.jar /usr/local/apache-tomcat/lib/
 WORKDIR /
 RUN yes $MCC_DIR | java -classpath /usr/local/dcm/setup.jar run -console && \
     rm -rf /usr/local/dcm/setup.jar
@@ -67,7 +68,7 @@ RUN /etc/init.d/postgresql start && \
 USER root
 
 # Enterprise Prerequisites
-ENV CLASSPATH /usr/local/apache-ant-${ANT_VERSION}/lib/*:/usr/local/dcm/jdbc/*:$CLASSPATH
+ENV CLASSPATH /usr/local/apache-ant-${ANT_VERSION}/lib/*:$CLASSPATH
 COPY installer/DCMEnterpriseInstaller.jar ${MCC_DIR}
 COPY installer/dcminstall.sh /usr/local/dcm/
 
@@ -79,7 +80,7 @@ RUN /etc/init.d/postgresql start && \
 EXPOSE 8080
 
 # DCM Volume
-VOLUME ["${CATALINA_BASE}/webapps/"]
+VOLUME ["/usr/local/apache-tomcat/webapps/"]
 
 # Entrypoint
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
