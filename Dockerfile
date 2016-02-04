@@ -68,7 +68,7 @@ COPY installer/DCMEnterpriseInstaller.jar ${MCC_DIR}
 COPY installer/dcminstall.sh /usr/local/dcm/
 
 # Easier Feature
-RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
+#RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
 
 # DCM Port
 EXPOSE 8080
