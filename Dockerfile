@@ -19,17 +19,11 @@ WORKDIR /usr/local/
 RUN apt-get update -y
 
 # Install ANT7
-RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
-    tar -zxf apache-ant-$ANT_VERSION-bin.tar.gz && \
-    rm -rf apache-ant-$ANT_VERSION-bin.tar.gz && \
-    ln -s /usr/local/apache-ant-$ANT_VERSION/bin/ant /usr/bin/ant
-
-ENV ANT_HOME /usr/bin/ant
+RUN apt-get install -y ant
 ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
 
 # Install Tomcat7
 RUN apt-get install -y tomcat7
-
 ENV CATALINA_HOME /usr/share/tomcat7
 ENV CATALINA_BASE /var/lib/tomcat7
 ENV PATH $CATALINA_HOME/bin:$PATH
