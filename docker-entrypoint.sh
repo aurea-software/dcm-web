@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CATALINA_BASE="/var/lib/tomcat7"
+CATALINA_HOME="/usr/share/tomcat7"
 
 if [ -z "$JDBC_URL" ]; then
     echo "JDBC_URL environment variable required"
@@ -127,4 +128,4 @@ else
     patchnipr
 fi
 
-catalina.sh run
+$CATALINA_HOME/bin/catalina.sh run
