@@ -50,7 +50,7 @@ patchdbproperties() {
 
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
     sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g"$CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
     sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
 
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
