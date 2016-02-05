@@ -33,6 +33,8 @@ generatedb() {
 }
 
 extractdmswar() {
+    echo "EXTRACTING DMS WAR..."
+    
     cp ${MCC_DIR}/buildoutput/DMS.war $CATALINE_BASE/webapps/
     mkdir $CATALINE_BASE/webapps/DMS
     unzip -o $CATALINE_BASE/webapps/DMS.war -d $CATALINE_BASE/webapps/DMS
