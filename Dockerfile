@@ -69,6 +69,12 @@ COPY installer/dcminstall.sh /usr/local/dcm/
 # Easier Feature
 RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
 
+# Mobile Feature
+RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV MOBILE
+
+# NIPR Feature
+RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV NIPR
+
 # DCM Port
 EXPOSE 8080
 
