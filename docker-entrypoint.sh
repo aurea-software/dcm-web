@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CATALINE_BASE = "/var/lib/tomcat7"
+CATALINE_BASE="/var/lib/tomcat7"
 
 if [ -z "$JDBC_URL" ]; then
     echo "JDBC_URL environment variable required"
