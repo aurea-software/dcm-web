@@ -2,7 +2,6 @@ FROM java:7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION 1.7.1
-ENV TOMCAT_VERSION 7.0.67
 ENV MCC_DIR /mcc
 ENV DCM_ENV DCM
 

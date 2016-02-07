@@ -101,19 +101,21 @@ patchdbproperties() {
 }
 
 patchnipr() {
-    echo "PATCHING NIPR PROPERTIES..."
+    if [ -n "$NIPR_USER" ] && [ -n "$NIPR_PASSWORD" ]; then
+        echo "PATCHING NIPR PROPERTIES..."
 
-    # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
-    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
-    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
 
-    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-    
-    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
-    if [ "$NIPR_BETA" == "true" -o "$NIPR_BETA" == "TRUE" ]; then
-        sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
+        if [ "$NIPR_BETA" == "true" -o "$NIPR_BETA" == "TRUE" ]; then
+            sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
+        fi
     fi
 }
 
