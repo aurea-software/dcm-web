@@ -1,5 +1,5 @@
 # Dockerized DCM web application
-Docker for DCM web application
+Docker image for DCM web application.
 
 # Environment Variables
 The container should be properly configured with following environment variables.
