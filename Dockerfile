@@ -14,6 +14,7 @@ ARG WEBSERVERPORT=8080
 ARG JDBC_URL=jdbc:postgresql://172.30.88.120:5432/mccdb
 ARG DB_USERNAME=mccuser
 ARG DB_PASSWORD=mccuser
+ARG DATA_VOL_PATH=/usr/local/dcm/data
 
 WORKDIR /usr/local/
 RUN apt-get update -y
@@ -64,8 +65,10 @@ USER root
 # DCM Port
 EXPOSE 8080
 
-# DCM Volume
+# DCM WAR Volume
 VOLUME ["${CATALINA_BASE}/webapps/"]
+# Data Volume
+VOLUME ["${DATA_VOL_PATH}"]
 
 # Entrypoint
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
