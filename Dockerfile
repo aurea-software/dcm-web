@@ -2,7 +2,6 @@ FROM java:7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION 1.7.1
-ENV TOMCAT_VERSION 7.0.67
 ENV MCC_DIR /mcc
 ENV DCM_ENV DCM
 
@@ -37,6 +36,7 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 # Copy DCM Installer
 USER root
 RUN mkdir -p /usr/local/dcm
+RUN mkdir -p $DATA_VOL_PATH
 COPY installer/setup.jar /usr/local/dcm/
 RUN mkdir -p /usr/local/dcm/jdbc
 COPY /jdbc/*.jar /usr/local/dcm/jdbc/
