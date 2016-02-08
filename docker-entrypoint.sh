@@ -33,10 +33,10 @@ generatedb() {
     ant Install -Denvironment=${DCM_ENV}
 }
 
-extractdmswar() {
-    echo "EXTRACTING DMS WAR..."
+deploywar() {
+    echo "DEPLOYING WAR..."
     
-    cp ${MCC_DIR}/buildoutput/DMS.war $CATALINA_BASE/webapps/
+    cp ${MCC_DIR}/buildoutput/*.war $CATALINA_BASE/webapps/
     mkdir $CATALINA_BASE/webapps/DMS
     unzip -o $CATALINA_BASE/webapps/DMS.war -d $CATALINA_BASE/webapps/DMS
 }
@@ -121,11 +121,11 @@ patchnipr() {
 
 if [ "$GENERATE_DATABASE" == "true" -o "$GENERATE_DATABASE" == "TRUE" ]; then
     generatedb
-    extractdmswar
+    deploywar
     patchdbproperties
     patchnipr
 else
-    extractdmswar
+    deploywar
     patchdbproperties
     patchnipr
 fi
