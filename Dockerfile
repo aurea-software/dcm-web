@@ -36,6 +36,7 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 # Copy DCM Installer
 USER root
 RUN mkdir -p /usr/local/dcm
+RUN mkdir -p $DATA_VOL_PATH
 COPY installer/setup.jar /usr/local/dcm/
 RUN mkdir -p /usr/local/dcm/jdbc
 COPY /jdbc/*.jar /usr/local/dcm/jdbc/
