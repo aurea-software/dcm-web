@@ -13,7 +13,7 @@ ARG WEBSERVERPORT=8080
 ARG JDBC_URL=jdbc:postgresql://172.30.88.120:5432/mccdb
 ARG DB_USERNAME=mccuser
 ARG DB_PASSWORD=mccuser
-ARG DATA_VOL_PATH=/usr/local/dcm/data
+ARG DATA_VOL_PATH=/data
 
 WORKDIR /usr/local/
 RUN apt-get update -y
