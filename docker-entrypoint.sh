@@ -129,7 +129,7 @@ patchnipr() {
 
 postinstall() {
     # ADCM-2980 Exception in DCM Admin - Loaders Error - Edit Raw Data
-    echo '\nPersonPartiesLoaderSpec.xml=Party.EditPersonParty' >> $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/tools/loader/ui/EditLoaderErrorPP.properties
+    echo -e "\nPersonPartiesLoaderSpec.xml=Party.EditPersonParty" >> $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/tools/loader/ui/EditLoaderErrorPP.properties
 
     # ADCM-2509 Contract Kit XML Export Failed
     sed -i "s#KitSpecificationXML=.*#KitSpecificationXML=${MCC_DIR}/Apps/DMSComp/util/ContractKitSpec.xml#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/contract/ContractExportAsXMLProviderServlet.properties
