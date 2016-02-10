@@ -33,10 +33,12 @@ generatedb() {
     ant Install -Denvironment=${DCM_ENV}
 }
 
-extractdmswar() {
-    echo "EXTRACTING DMS WAR..."
+deploywar() {
+    echo "DEPLOYING WAR..."
     
-    cp ${MCC_DIR}/buildoutput/DMS.war $CATALINA_BASE/webapps/
+    cp ${MCC_DIR}/buildoutput/*.war $CATALINA_BASE/webapps/
+
+    # DMS
     mkdir $CATALINA_BASE/webapps/DMS
     unzip -o $CATALINA_BASE/webapps/DMS.war -d $CATALINA_BASE/webapps/DMS
 }
@@ -101,29 +103,37 @@ patchdbproperties() {
 }
 
 patchnipr() {
-    echo "PATCHING NIPR PROPERTIES..."
+    if [ -n "$NIPR_USER" ] && [ -n "$NIPR_PASSWORD" ]; then
+        echo "PATCHING NIPR PROPERTIES..."
 
-    # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
-    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
-    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
 
-    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-    sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-    sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-    
-    # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
-    if [ "$NIPR_BETA" == "true" -o "$NIPR_BETA" == "TRUE" ]; then
-        sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
+        if [ "$NIPR_BETA" == "true" -o "$NIPR_BETA" == "TRUE" ]; then
+            sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
+        fi
+
+        # /DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.PartyData=.*#UpdateMode.Process.PartyData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.ContactPointData=.*#UpdateMode.Process.ContactPointData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.LicenseData=.*#UpdateMode.Process.LicenseData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.AppointmentData=.*#UpdateMode.Process.AppointmentData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
     fi
 }
 
 if [ "$GENERATE_DATABASE" == "true" -o "$GENERATE_DATABASE" == "TRUE" ]; then
     generatedb
-    extractdmswar
+    deploywar
     patchdbproperties
     patchnipr
 else
-    extractdmswar
+    deploywar
     patchdbproperties
     patchnipr
 fi
