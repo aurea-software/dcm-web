@@ -119,7 +119,7 @@ patchnipr() {
             sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
         fi
 
-        # /DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
         sed -i "s#UpdateMode.Process.PartyData=.*#UpdateMode.Process.PartyData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
         sed -i "s#UpdateMode.Process.ContactPointData=.*#UpdateMode.Process.ContactPointData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
         sed -i "s#UpdateMode.Process.LicenseData=.*#UpdateMode.Process.LicenseData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
@@ -127,15 +127,19 @@ patchnipr() {
     fi
 }
 
+postinstall() {
+    # DMS/WEB-INF/classes/com/trilogy/fs/dms/tools/loader/ui/EditLoaderErrorPP.properties
+    echo '\nPersonPartiesLoaderSpec.xml=Party.EditPersonParty' >> $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/tools/loader/ui/EditLoaderErrorPP.properties
+}
+
 if [ "$GENERATE_DATABASE" == "true" -o "$GENERATE_DATABASE" == "TRUE" ]; then
     generatedb
-    deploywar
-    patchdbproperties
-    patchnipr
-else
-    deploywar
-    patchdbproperties
-    patchnipr
 fi
+
+# deploy DCM
+deploywar
+patchdbproperties
+patchnipr
+postinstall
 
 $CATALINA_HOME/bin/catalina.sh run
