@@ -62,10 +62,24 @@ RUN ant Install -Denvironment=$DCM_ENV
 
 USER root
 
+# Enterprise Prerequisites
+ENV CLASSPATH /usr/local/apache-ant-${ANT_VERSION}/lib/*:/usr/local/dcm/jdbc/*:$CLASSPATH
+COPY installer/DCMEnterpriseInstaller.jar ${MCC_DIR}
+COPY installer/dcminstall.sh /usr/local/dcm/
+
+# Easier Feature
+RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV EASIER
+
+# Mobile Feature
+RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV MOBILE
+
+# NIPR Feature
+RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV NIPR
+
 # DCM Port
 EXPOSE 8080
 
-# DCM WAR Volume
+# DCM Volume
 VOLUME ["${CATALINA_BASE}/webapps/"]
 # Data Volume
 VOLUME ["${DATA_VOL_PATH}"]
