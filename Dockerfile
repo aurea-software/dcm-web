@@ -79,7 +79,7 @@ RUN bash /usr/local/dcm/dcminstall.sh $MCC_DIR $DCM_ENV NIPR
 # DCM Port
 EXPOSE 8080
 
-# DCM Volume
+# DCM WAR Volume
 VOLUME ["${CATALINA_BASE}/webapps/"]
 # Data Volume
 VOLUME ["${DATA_VOL_PATH}"]
