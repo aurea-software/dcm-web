@@ -58,7 +58,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
 
 # Generate war
 WORKDIR ${MCC_DIR}
-RUN ant Install -Denvironment=$DCM_ENV
+RUN ant Install -Denvironment=$DCM_ENV -DSchedulerInstall=true
 
 USER root
 

@@ -41,6 +41,10 @@ deploywar() {
     # DMS
     mkdir $CATALINA_BASE/webapps/DMS
     unzip -o $CATALINA_BASE/webapps/DMS.war -d $CATALINA_BASE/webapps/DMS
+
+    # IPA
+    mkdir $CATALINA_BASE/webapps/IPA
+    unzip -o $CATALINA_BASE/webapps/IPA.war -d $CATALINA_BASE/webapps/IPA
 }
 
 patchdbproperties() {
@@ -100,6 +104,11 @@ patchdbproperties() {
     sed -i "s#name=\"JDBC_URL\" value=\"[^\\""]*\"#name=\"JDBC_URL\" value=\"${JDBC_URL}\"#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.xml
     sed -i "s#name=\"DB_USERNAME\" value=\"[^\\""]*\"#name=\"DB_USERNAME\" value=\"${DB_USERNAME}\"#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.xml
     sed -i "s#name=\"DB_PASSWORD\" value=\"[^\\""]*\"#name=\"DB_PASSWORD\" value=\"${DB_PASSWORD}\"#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.xml
+
+    # IPA/WEB-INF/classes/mcc.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/IPA/WEB-INF/classes/mcc.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/IPA/WEB-INF/classes/mcc.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/IPA/WEB-INF/classes/mcc.properties
 }
 
 patchnipr() {
