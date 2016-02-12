@@ -1,4 +1,4 @@
-# Dockerized DCM web application
+# Dockerized DCM web application (2015 R)
 Docker image for DCM web application (2015 R).
 
 # Environment Variables
