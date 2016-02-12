@@ -56,9 +56,12 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
     sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${MCC_DIR}/environments/DCM_Environment.properties
 
+# Configure Schedules
+RUN sed -i "s#dcm.SchedulerInstall=.*#dcm.SchedulerInstall=true#g" ${MCC_DIR}/environments/templates/build.properties
+
 # Generate war
 WORKDIR ${MCC_DIR}
-RUN ant Install -Denvironment=$DCM_ENV -DSchedulerInstall=true
+RUN ant Install -Denvironment=$DCM_ENV
 
 USER root
 
