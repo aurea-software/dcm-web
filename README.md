@@ -1,12 +1,12 @@
-# Dockerized DCM web application
-Docker image for DCM web application.
+# Dockerized DCM web application (2016 Release)
+Docker image for DCM web application (2016 Release)
 
 # Environment Variables
 The container should be properly configured with following environment variables.
 
 Key | Value | Description
 :-- | :-- | :-- 
-JDBC_URL | jdbc:postgresql://192.168.99.100:5432/mccdb | JDBC connection string.
+JDBC_URL | jdbc:postgresql://192.168.99.100:5433/mccdb | JDBC connection string.
 DB_USERNAME | mccuser | Database user name.
 DB_PASSWORD | mccuser | Database password.
 GENERATE_DATABASE | false | Re-create the db specified in the JDBC_URL or not.
