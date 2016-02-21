@@ -35,11 +35,12 @@ generatedb() {
 
 deploywar() {
     echo "DEPLOYING WAR..."
-
+    
+    cp ${MCC_DIR}/buildoutput/*.war $CATALINA_BASE/webapps/
+    
     # DMS
     rm -rf $CATALINA_BASE/webapps/DMS
     mkdir $CATALINA_BASE/webapps/DMS
-    cp ${MCC_DIR}/buildoutput/*.war $CATALINA_BASE/webapps/
     unzip -o $CATALINA_BASE/webapps/DMS.war -d $CATALINA_BASE/webapps/DMS
     rm $CATALINA_BASE/webapps/DMS.war
 }
