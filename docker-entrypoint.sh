@@ -42,7 +42,6 @@ deploywar() {
     rm -rf $CATALINA_BASE/webapps/DMS
     mkdir $CATALINA_BASE/webapps/DMS
     unzip -o $CATALINA_BASE/webapps/DMS.war -d $CATALINA_BASE/webapps/DMS
-    rm $CATALINA_BASE/webapps/DMS.war
 }
 
 patchdbproperties() {
