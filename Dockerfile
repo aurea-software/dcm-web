@@ -38,8 +38,7 @@ RUN apt-get install -y tomcat7 && \
     apt-get install -y subversion
 
 #Checkout AmFam from SVN
-RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015 && \
-    AMFAM_DIR --username SVN_USER --password SVN_PASSWORD --no-auth-cache --non-interactive
+RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015 $AMFAM_DIR --username $SVN_USER --password $SVN_PASSWORD --no-auth-cache --non-interactive
 
 # Copy DCM Installer
 USER root
