@@ -1,5 +1,5 @@
-# Dockerized DCM web application (2015 R)
-Docker image for DCM web application (2015 R).
+# Dockerized DCM web application (AmFam)
+Docker image for DCM web application (AmFam).
 
 # Environment Variables
 The container should be properly configured with following environment variables.
