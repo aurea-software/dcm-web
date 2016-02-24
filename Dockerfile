@@ -6,6 +6,11 @@ ENV MCC_DIR /mcc
 ENV AMFAM_DIR /amfam
 ENV DCM_ENV DCM
 ENV AMFAM_ENV Dev
+ENV CATALINA_HOME /usr/share/tomcat7
+ENV CATALINA_BASE /var/lib/tomcat7
+ENV PATH $CATALINA_HOME/bin:$PATH
+ENV ANT_HOME /usr/bin/ant
+ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
@@ -16,6 +21,8 @@ ARG JDBC_URL=jdbc:postgresql://172.30.86.40:5435/mccdb
 ARG DB_USERNAME=mccuser
 ARG DB_PASSWORD=mccuser
 ARG DATA_VOL_PATH=/data
+ARG SVN_PASSWORD="bCm&{:F>nuZ'23zN"
+ARG SVN_USER=service.dcm.teamcity
 
 WORKDIR /usr/local/
 RUN apt-get update -y
@@ -26,14 +33,13 @@ RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin
     rm -rf apache-ant-$ANT_VERSION-bin.tar.gz && \
     ln -s /usr/local/apache-ant-$ANT_VERSION/bin/ant /usr/bin/ant
 
-ENV ANT_HOME /usr/bin/ant
-ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
+# Install Tomcat7 and subversion
+RUN apt-get install -y tomcat7 && \
+    apt-get install -y subversion
 
-# Install Tomcat7
-RUN apt-get install -y tomcat7
-ENV CATALINA_HOME /usr/share/tomcat7
-ENV CATALINA_BASE /var/lib/tomcat7
-ENV PATH $CATALINA_HOME/bin:$PATH
+#Checkout AmFam from SVN
+RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015 &&
+    AMFAM_DIR --username SVN_USER --password SVN_PASSWORD --no-auth-cache --non-interactive
 
 # Copy DCM Installer
 USER root
@@ -78,7 +84,7 @@ RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepE
 
 WORKDIR ${AMFAM_DIR}
 RUN ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
-    ant DevBuild -Denvironment=Dev -DuseXML=true && \
+    ant DevBuild -Denvironment=$AMFAM_ENV -DuseXML=true && \
     rm -rf ${AMFAM_DIR}/*.log
 
 USER root
