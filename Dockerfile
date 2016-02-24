@@ -38,7 +38,7 @@ RUN apt-get install -y tomcat7 && \
     apt-get install -y subversion
 
 #Checkout AmFam from SVN
-RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015 &&
+RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015 && \
     AMFAM_DIR --username SVN_USER --password SVN_PASSWORD --no-auth-cache --non-interactive
 
 # Copy DCM Installer
@@ -80,9 +80,9 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
 # Generate war
 WORKDIR ${MCC_DIR}
 RUN ant Install -Denvironment=$DCM_ENV
-RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml &&
-        -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml &&
-        -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml &&
+RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml && \
+        -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml && \
+        -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml && \
         -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}
 
 WORKDIR ${AMFAM_DIR}
