@@ -3,9 +3,6 @@ MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@au
 
 ENV ANT_VERSION 1.7.1
 ENV MCC_DIR /mcc
-ENV AMFAM_DIR /amfam
-ENV DCM_ENV DCM
-ENV AMFAM_ENV Dev
 ENV CATALINA_HOME /usr/share/tomcat7
 ENV CATALINA_BASE /var/lib/tomcat7
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -23,6 +20,17 @@ ARG DB_PASSWORD=mccuser
 ARG DATA_VOL_PATH=/data
 ARG SVN_PASSWORD="bCm&{:F>nuZ'23zN"
 ARG SVN_USER=service.dcm.teamcity
+ARG AMFAM_DIR=/amfam
+ARG MCCFORMULA_SOURCEDIR=${AMFAM_DIR}/temp_mccformula
+ARG LOGSDIR=${AMFAM_DIR}/logs
+ARG BASEDIR=${AMFAM_DIR}
+ARG DCM_ENV=DCM
+ARG AMFAM_ENV=Dev
+ARG AUDIT_EXCLUDE_OBJECTS_FILENAME=${AMFAM_DIR}/customresources/audit_exclude.properties
+ARG APPSERVER_LOGSDIR=${AMFAM_DIR}/logs
+ARG WSSERVER_LOGSDIR=${AMFAM_DIR}/logs
+ARG SHAREDLOCATION=${AMFAM_DIR}
+
 
 WORKDIR /usr/local/
 RUN apt-get update -y
@@ -74,7 +82,14 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
     sed -i "s#\[deploy.dms.WEBSERVERPORT\]=.*#\[deploy.dms.WEBSERVERPORT\]=${WEBSERVERPORT}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
-    sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties
+    sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+    sed -i "s#\[MCCFORMULA_SOURCEDIR\]=.*#\[MCCFORMULA_SOURCEDIR\]=${MCCFORMULA_SOURCEDIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+    sed -i "s#\[deploy.dms.BASEDIR\]=.*#\[deploy.dms.BASEDIR\]=${BASEDIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+    sed -i "s#\[deploy.dms.LOGSDIR\]=.*#\[deploy.dms.LOGSDIR\]=${LOGSDIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+    sed -i "s#\[AUDIT_EXCLUDE_OBJECTS_FILENAME\]=.*#\[AUDIT_EXCLUDE_OBJECTS_FILENAME\]=${AUDIT_EXCLUDE_OBJECTS_FILENAME}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+    sed -i "s#\[deploy.dms.APPSERVER.LOGSDIR\]=.*#\[deploy.dms.APPSERVER.LOGSDIR\]=${APPSERVER_LOGSDIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+    sed -i "s#\[deploy.dms.WSSERVER.LOGSDIR\]=.*#\[deploy.dms.WSSERVER.LOGSDIR\]=${WSSERVER_LOGSDIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+    sed -i "s#\[deploy.dms.SHAREDLOCATION\]=.*#\[deploy.dms.SHAREDLOCATION\]=${SHAREDLOCATION}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties
     
 # Generate war
 WORKDIR ${MCC_DIR}
