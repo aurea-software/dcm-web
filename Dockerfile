@@ -79,10 +79,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
 # Generate war
 WORKDIR ${MCC_DIR}
 RUN ant Install -Denvironment=$DCM_ENV
-RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml && \
-        -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml && \
-        -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml && \
-        -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=$AMFAM_DIR
+RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/
 
 WORKDIR ${AMFAM_DIR}
 RUN ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
