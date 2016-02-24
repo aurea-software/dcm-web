@@ -5,6 +5,7 @@ ENV ANT_VERSION 1.7.1
 ENV MCC_DIR /mcc
 ENV AMFAM_DIR /amfam
 ENV DCM_ENV DCM
+ENV AMFAM_ENV Dev
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
@@ -60,7 +61,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
 ##Checkout AMFAM Branch##
 
 # Set DCM AmFam Properties
-RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${AMFAM_DIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
+RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
     sed -i "s#\[deploy.dms.JAVAHOME\]=.*#\[deploy.dms.JAVAHOME\]=${JAVAHOME}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_DRIVERPATH\]=.*#\[deploy.dms.JDBC_DRIVERPATH\]=${JDBC_DRIVERPATH}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_DRIVER\]=.*#\[deploy.dms.JDBC_DRIVER\]=${JDBC_DRIVER}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
@@ -76,7 +77,7 @@ RUN ant Install -Denvironment=$DCM_ENV
 RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}
 
 WORKDIR ${AMFAM_DIR}
-RUN ant PrepareEnvResources -Denvironment=Dev -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
+RUN ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
     ant DevBuild -Denvironment=Dev -DuseXML=true && \
     rm -rf ${AMFAM_DIR}/*.log
 
