@@ -38,10 +38,7 @@ generatedb() {
     # Regenerate WAR with database
     cd ${MCC_DIR}
     ant Install -Denvironment=${DCM_ENV} && \
-    ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml && \
-        -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml && \
-        -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml && \
-        -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}
+    ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/
 
     cd ${AMFAM_DIR}
     ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
