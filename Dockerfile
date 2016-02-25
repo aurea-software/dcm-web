@@ -9,7 +9,7 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 ENV ANT_HOME /usr/bin/ant
 ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
 
-ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk
+ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
 ARG JDBC_DRIVER=org.postgresql.Driver
 ARG WEBSERVER=localhost
