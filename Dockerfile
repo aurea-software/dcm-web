@@ -13,7 +13,7 @@ ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
 ARG JDBC_DRIVER=org.postgresql.Driver
 ARG WEBSERVER=localhost
-ARG WEBSERVERPORT=8083
+ARG WEBSERVERPORT=8080
 ARG JDBC_URL=jdbc:postgresql://172.30.86.40:5435/mccdb
 ARG DB_USERNAME=mccuser
 ARG DB_PASSWORD=mccuser
@@ -30,7 +30,6 @@ ARG AUDIT_EXCLUDE_OBJECTS_FILENAME=${AMFAM_DIR}/customresources/audit_exclude.pr
 ARG APPSERVER_LOGSDIR=${AMFAM_DIR}/logs
 ARG WSSERVER_LOGSDIR=${AMFAM_DIR}/logs
 ARG SHAREDLOCATION=${AMFAM_DIR}
-
 
 WORKDIR /usr/local/
 RUN apt-get update -y
@@ -94,13 +93,11 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
 # Generate war
 WORKDIR ${MCC_DIR}
 RUN ant Install -Denvironment=$DCM_ENV
-RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/ && \
-    rm -rf ${AMFAM_DIR}/*.log
+RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/
 
 WORKDIR ${AMFAM_DIR}
 RUN ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
-    ant DevBuild -Denvironment=$AMFAM_ENV -DuseXML=true && \
-    rm -rf ${AMFAM_DIR}/*.log
+    ant DevBuild -Denvironment=$AMFAM_ENV -DuseXML=true
 
 USER root
 
