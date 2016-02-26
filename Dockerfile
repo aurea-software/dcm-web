@@ -2,9 +2,10 @@ FROM java:7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION 1.7.1
+ENV TOMCAT_VERSION 7.0.67
 ENV MCC_DIR /mcc
-ENV CATALINA_HOME /usr/share/tomcat7
-ENV CATALINA_BASE /var/lib/tomcat7
+ENV CATALINA_HOME /usr/local/apache-tomcat
+ENV CATALINA_BASE /usr/local/apache-tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 ENV ANT_HOME /usr/bin/ant
 ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
@@ -41,7 +42,10 @@ RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin
     ln -s /usr/local/apache-ant-$ANT_VERSION/bin/ant /usr/bin/ant
 
 # Install Tomcat7 and subversion
-RUN apt-get install -y tomcat7 && \
+RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    tar -zxf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    rm -rf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
+    mv apache-tomcat-$TOMCAT_VERSION apache-tomcat && \
     apt-get install -y subversion
 
 #Checkout AmFam from SVN
