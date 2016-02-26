@@ -50,71 +50,71 @@ generatedb() {
 deploywar() {
     echo "DEPLOYING WAR..."
     
-    cp ${AMFAM_DIR}/lib/*.war $CATALINA_BASE/webapps/
+    cp ${AMFAM_DIR}/lib/*.war ${CATALINA_BASE}/webapps/
 
     # DMS
-    rm -rf $CATALINA_BASE/webapps/DMS
-    mkdir $CATALINA_BASE/webapps/DMS
-    unzip -o $CATALINA_BASE/webapps/DMS.war -d $CATALINA_BASE/webapps/DMS
+    rm -rf ${CATALINA_BASE}/webapps/DMS
+    mkdir ${CATALINA_BASE}/webapps/DMS
+    unzip -o ${CATALINA_BASE}/webapps/DMS.war -d ${CATALINA_BASE}/webapps/DMS
 }
 
 patchdbproperties() {
     echo "PATCHING DB PROPERTIES..."
 
     # DMS/WEB-INF/classes/CMEngine.properties
-    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/CMEngine.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/CMEngine.properties
-    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/CMEngine.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/CMEngine.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/CMEngine.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/CMEngine.properties
 
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
-    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
-    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/DMSBackbone.properties
 
     # DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
-    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
-    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/core/lock/DMSDistributedLockService.properties
 
     # DMS/WEB-INF/classes/ivizgroup.properties
-    sed -i "s#db.url=.*#db.url=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/ivizgroup.properties
-    sed -i "s#db.user=.*#db.user=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/ivizgroup.properties
-    sed -i "s#db.password=.*#db.password=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/ivizgroup.properties
+    sed -i "s#db.url=.*#db.url=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/ivizgroup.properties
+    sed -i "s#db.user=.*#db.user=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/ivizgroup.properties
+    sed -i "s#db.password=.*#db.password=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/ivizgroup.properties
 
     # DMS/WEB-INF/classes/ivizgroupLDAP.properties
-    sed -i "s#db.url=.*#db.url=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/ivizgroupLDAP.properties
-    sed -i "s#db.user=.*#db.user=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/ivizgroupLDAP.properties
-    sed -i "s#db.password=.*#db.password=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/ivizgroupLDAP.properties
+    sed -i "s#db.url=.*#db.url=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/ivizgroupLDAP.properties
+    sed -i "s#db.user=.*#db.user=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/ivizgroupLDAP.properties
+    sed -i "s#db.password=.*#db.password=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/ivizgroupLDAP.properties
 
     # DMS/WEB-INF/classes/local.properties
-    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/local.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/local.properties
-    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/local.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/local.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/local.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/local.properties
 
     # DMS/WEB-INF/classes/mcc.properties
-    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.properties
-    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/mcc.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/mcc.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/mcc.properties
 
     # DMS/WEB-INF/classes/com/trilogy/html/gui/Multi.properties
-    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/html/gui/Multi.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/html/gui/Multi.properties
-    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/html/gui/Multi.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/html/gui/Multi.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/html/gui/Multi.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/html/gui/Multi.properties
 
     # DMS/WEB-INF/classes/UserAcl2ServiceServerBackbone.properties
-    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/UserAcl2ServiceServerBackbone.properties
-    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/UserAcl2ServiceServerBackbone.properties
-    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/UserAcl2ServiceServerBackbone.properties
+    sed -i "s#JDBC_URL=.*#JDBC_URL=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/UserAcl2ServiceServerBackbone.properties
+    sed -i "s#DB_USERNAME=.*#DB_USERNAME=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/UserAcl2ServiceServerBackbone.properties
+    sed -i "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/UserAcl2ServiceServerBackbone.properties
 
     # DMS/WEB-INF/classes/com/versata/adhoc/resources/adhoc.properties
-    sed -i "s#jdbcUrl=.*#jdbcUrl=${JDBC_URL}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/versata/adhoc/resources/adhoc.properties
-    sed -i "s#jdbcUser=.*#jdbcUser=${DB_USERNAME}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/versata/adhoc/resources/adhoc.properties
-    sed -i "s#jdbcPassword=.*#jdbcPassword=${DB_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/versata/adhoc/resources/adhoc.properties
+    sed -i "s#jdbcUrl=.*#jdbcUrl=${JDBC_URL}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/versata/adhoc/resources/adhoc.properties
+    sed -i "s#jdbcUser=.*#jdbcUser=${DB_USERNAME}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/versata/adhoc/resources/adhoc.properties
+    sed -i "s#jdbcPassword=.*#jdbcPassword=${DB_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/versata/adhoc/resources/adhoc.properties
 
     # DMS/WEB-INF/classes/mcc.xml
-    sed -i "s#name=\"JDBC_URL\" value=\"[^\\""]*\"#name=\"JDBC_URL\" value=\"${JDBC_URL}\"#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.xml
-    sed -i "s#name=\"DB_USERNAME\" value=\"[^\\""]*\"#name=\"DB_USERNAME\" value=\"${DB_USERNAME}\"#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.xml
-    sed -i "s#name=\"DB_PASSWORD\" value=\"[^\\""]*\"#name=\"DB_PASSWORD\" value=\"${DB_PASSWORD}\"#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/mcc.xml
+    sed -i "s#name=\"JDBC_URL\" value=\"[^\\""]*\"#name=\"JDBC_URL\" value=\"${JDBC_URL}\"#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/mcc.xml
+    sed -i "s#name=\"DB_USERNAME\" value=\"[^\\""]*\"#name=\"DB_USERNAME\" value=\"${DB_USERNAME}\"#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/mcc.xml
+    sed -i "s#name=\"DB_PASSWORD\" value=\"[^\\""]*\"#name=\"DB_PASSWORD\" value=\"${DB_PASSWORD}\"#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/mcc.xml
 }
 
 patchnipr() {
@@ -122,32 +122,32 @@ patchnipr() {
         echo "PATCHING NIPR PROPERTIES..."
 
         # DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
-        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
-        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
+        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
 
         # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
-        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        sed -i "s#CustomerID=.*#CustomerID=${NIPR_USER}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
+        sed -i "s#Password=.*#Password=${NIPR_PASSWORD}#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/AccountInformation.properties
         
         # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
         if [ "$NIPR_BETA" == "true" -o "$NIPR_BETA" == "TRUE" ]; then
-            sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
+            sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
         fi
 
         # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
-        sed -i "s#UpdateMode.Process.PartyData=.*#UpdateMode.Process.PartyData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
-        sed -i "s#UpdateMode.Process.ContactPointData=.*#UpdateMode.Process.ContactPointData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
-        sed -i "s#UpdateMode.Process.LicenseData=.*#UpdateMode.Process.LicenseData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
-        sed -i "s#UpdateMode.Process.AppointmentData=.*#UpdateMode.Process.AppointmentData=true#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.PartyData=.*#UpdateMode.Process.PartyData=true#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.ContactPointData=.*#UpdateMode.Process.ContactPointData=true#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.LicenseData=.*#UpdateMode.Process.LicenseData=true#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
+        sed -i "s#UpdateMode.Process.AppointmentData=.*#UpdateMode.Process.AppointmentData=true#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
     fi
 }
 
 postinstall() {
     # ADCM-2980 Exception in DCM Admin - Loaders Error - Edit Raw Data
-    echo -e "\nPersonPartiesLoaderSpec.xml=Party.EditPersonParty" >> $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/tools/loader/ui/EditLoaderErrorPP.properties
+    echo -e "\nPersonPartiesLoaderSpec.xml=Party.EditPersonParty" >> ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/tools/loader/ui/EditLoaderErrorPP.properties
 
     # ADCM-2509 Contract Kit XML Export Failed
-    sed -i "s#KitSpecificationXML=.*#KitSpecificationXML=${MCC_DIR}/Apps/DMSComp/util/ContractKitSpec.xml#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/contract/ContractExportAsXMLProviderServlet.properties
+    sed -i "s#KitSpecificationXML=.*#KitSpecificationXML=${MCC_DIR}/Apps/DMSComp/util/ContractKitSpec.xml#g" ${CATALINA_BASE}/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/contract/ContractExportAsXMLProviderServlet.properties
 }
 
 if [ "$GENERATE_DATABASE" == "true" -o "$GENERATE_DATABASE" == "TRUE" ]; then
@@ -160,4 +160,4 @@ patchdbproperties
 patchnipr
 postinstall
 
-$CATALINA_HOME/bin/catalina.sh run
+${CATALINA_BASE}/bin/catalina.sh run
