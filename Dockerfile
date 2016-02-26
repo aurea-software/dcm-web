@@ -4,6 +4,7 @@ MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@au
 ENV ANT_VERSION 1.7.1
 ENV TOMCAT_VERSION 7.0.68
 ENV MCC_DIR /mcc
+ENV AMFAM_DIR /amfam
 ENV CATALINA_HOME /usr/local/apache-tomcat
 ENV CATALINA_BASE /usr/local/apache-tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -21,7 +22,6 @@ ARG DB_PASSWORD=mccuser
 ARG DATA_VOL_PATH=/data
 ARG SVN_PASSWORD="bCm&{:F>nuZ'23zN"
 ARG SVN_USER=service.dcm.teamcity
-ARG AMFAM_DIR=/amfam
 ARG MCCFORMULA_SOURCEDIR=${AMFAM_DIR}/temp_mccformula
 ARG LOGSDIR=${AMFAM_DIR}/logs
 ARG BASEDIR=${AMFAM_DIR}
