@@ -31,6 +31,7 @@ generatedb() {
     # Regenerate WAR with database
     cd ${MCC_DIR}
     ant Install -Denvironment=${DCM_ENV}
+    rm -rf ${MCC_DIR}/*.log
 }
 
 deploywar() {
