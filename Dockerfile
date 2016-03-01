@@ -1,11 +1,16 @@
-FROM java:7
+FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
-ENV ANT_VERSION 1.7.1
-ENV MCC_DIR /mcc
-ENV DCM_ENV DCM
+ENV ANT_VERSION=1.7.1 \
+	MCC_DIR=/mcc \
+	DCM_ENV=DCM \
+	ANT_HOME=/usr/bin/ant \
+	ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
+	CATALINA_HOME=/usr/share/tomcat7 \
+	CATALINA_BASE=/var/lib/tomcat7 \
+	PATH=$CATALINA_HOME/bin:$PATH
 
-ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk
+ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
 ARG JDBC_DRIVER=org.postgresql.Driver
 ARG WEBSERVER=localhost
@@ -16,22 +21,18 @@ ARG DB_PASSWORD=mccuser
 ARG DATA_VOL_PATH=/data
 
 WORKDIR /usr/local/
-RUN apt-get update -y
+
+# Install JAVA 7, Tomcat 7
+RUN \
+    apt-get update -y && \
+	apt-get install -y --no-install-recommends wget openjdk-7-jre-headless && \
+	apt-get install -y tomcat7
 
 # Install ANT7
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
     tar -zxf apache-ant-$ANT_VERSION-bin.tar.gz && \
     rm -rf apache-ant-$ANT_VERSION-bin.tar.gz && \
     ln -s /usr/local/apache-ant-$ANT_VERSION/bin/ant /usr/bin/ant
-    
-ENV ANT_HOME /usr/bin/ant
-ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
-
-# Install Tomcat7
-RUN apt-get install -y tomcat7
-ENV CATALINA_HOME /usr/share/tomcat7
-ENV CATALINA_BASE /var/lib/tomcat7
-ENV PATH $CATALINA_HOME/bin:$PATH
 
 # Copy DCM Installer
 USER root
@@ -43,7 +44,8 @@ COPY /jdbc/*.jar /usr/local/dcm/jdbc/
 COPY /jdbc/*.jar $CATALINA_HOME/lib/
 WORKDIR /
 RUN yes $MCC_DIR | java -classpath /usr/local/dcm/setup.jar run -console && \
-    rm -rf /usr/local/dcm/setup.jar
+    rm -rf /usr/local/dcm/setup.jar && \
+    rm -rf ${MCC_DIR}/*.log
 
 # Set DCM Properties
 RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
