@@ -25,7 +25,7 @@ WORKDIR /usr/local/
 # Install JAVA 7, Tomcat 7
 RUN \
     apt-get update -y && \
-	apt-get install -y --no-install-recommends wget openjdk-7-jre-headless && \
+	apt-get install -y wget openjdk-7-jre-headless && \
 	apt-get install -y tomcat7
 
 # Install ANT7
