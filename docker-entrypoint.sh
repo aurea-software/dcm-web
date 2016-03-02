@@ -32,6 +32,7 @@ generatedb() {
     cd ${MCC_DIR}
     ant Install -Denvironment=${DCM_ENV}
     rm -rf ${MCC_DIR}/*.log
+    rm -rf ${MCC_DIR}/buildoutput
 }
 
 deploywar() {
