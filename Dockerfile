@@ -1,14 +1,14 @@
-FROM debian:7.7
+FROM java:7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION=1.7.1 \
-	MCC_DIR=/mcc \
-	DCM_ENV=DCM \
-	ANT_HOME=/usr/bin/ant \
-	ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
-	CATALINA_HOME=/usr/share/tomcat7 \
-	CATALINA_BASE=/var/lib/tomcat7 \
-	PATH=$CATALINA_HOME/bin:$PATH
+MCC_DIR=/mcc \
+DCM_ENV=DCM \
+ANT_HOME=/usr/bin/ant \
+ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
+CATALINA_HOME=/usr/share/tomcat7 \
+CATALINA_BASE=/var/lib/tomcat7 \
+PATH=$CATALINA_HOME/bin:$PATH
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
@@ -25,8 +25,7 @@ WORKDIR /usr/local/
 # Install JAVA 7, Tomcat 7
 RUN \
     apt-get update -y && \
-	apt-get install -y wget openjdk-7-jre && \
-	apt-get install -y tomcat7
+    apt-get install -y wget tomcat7
 
 # Install ANT7
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
