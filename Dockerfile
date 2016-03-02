@@ -1,4 +1,4 @@
-FROM java:7
+FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION=1.7.1 \
@@ -25,7 +25,7 @@ WORKDIR /usr/local/
 # Install JAVA 7, Tomcat 7
 RUN \
     apt-get update -y && \
-    apt-get install -y wget tomcat7
+    apt-get install -y --no-install-recommends openjdk-7-jdk-headless wget tomcat7
 
 # Install ANT7
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
