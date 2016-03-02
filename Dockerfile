@@ -10,8 +10,8 @@ ENV ANT_VERSION=1.7.1 \
 	CATALINA_BASE=/var/lib/tomcat7 \
 	PATH=$CATALINA_HOME/bin:$PATH
 
-ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
-ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
+ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64 \
+	JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
 ARG JDBC_DRIVER=org.postgresql.Driver
 ARG WEBSERVER=localhost
 ARG WEBSERVERPORT=8080
@@ -25,7 +25,7 @@ WORKDIR /usr/local/
 # Install JAVA 7, Tomcat 7
 RUN \
     apt-get update -y && \
-	apt-get install -y wget openjdk-7-jre-headless && \
+	apt-get install -y wget openjdk-7-jre && \
 	apt-get install -y tomcat7
 
 # Install ANT7
