@@ -31,15 +31,13 @@ generatedb() {
     # Regenerate WAR with database
     cd ${MCC_DIR}
     ant Install -Denvironment=${DCM_ENV}
-    rm -rf ${MCC_DIR}/*.log
 }
 
 deploywar() {
     echo "DEPLOYING WAR..."
     
     mv ${MCC_DIR}/buildoutput/*.war $CATALINA_BASE/webapps/
-    rm -rf ${MCC_DIR}/buildoutput
-    
+
     # DMS
     rm -rf $CATALINA_BASE/webapps/DMS
     mkdir $CATALINA_BASE/webapps/DMS
