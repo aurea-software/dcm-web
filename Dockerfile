@@ -25,7 +25,7 @@ WORKDIR /usr/local/
 # Install JAVA 7, Tomcat 7
 RUN \
     apt-get update -y && \
-    apt-get install -y --no-install-recommends openjdk-7-jdk wget tomcat7
+    apt-get install -y --no-install-recommends openjdk-7-jdk wget tomcat7 unzip
 
 # Install ANT7
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
