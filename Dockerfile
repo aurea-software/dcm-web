@@ -44,8 +44,7 @@ COPY /jdbc/*.jar $CATALINA_HOME/lib/
 WORKDIR /
 RUN yes $MCC_DIR | java -classpath /usr/local/dcm/setup.jar run -console && \
     rm -rf /usr/local/dcm/setup.jar && \
-    rm -rf ${MCC_DIR}/*.log && \
-    rm -rf ${MCC_DIR}/buildoutput
+    rm -rf ${MCC_DIR}/*.log
 
 # Set DCM Properties
 RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
@@ -60,7 +59,8 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
 
 # Generate war
 WORKDIR ${MCC_DIR}
-RUN ant Install -Denvironment=$DCM_ENV
+RUN ant Install -Denvironment=$DCM_ENV && \
+    rm -rf ${MCC_DIR}/Apps
 
 USER root
 
