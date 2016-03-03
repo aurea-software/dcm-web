@@ -37,6 +37,7 @@ deploywar() {
     echo "DEPLOYING WAR..."
     
     mv ${MCC_DIR}/buildoutput/*.war $CATALINA_BASE/webapps/
+    rm -rf ${MCC_DIR}/Apps/CompModeler
 
     # DMS
     rm -rf $CATALINA_BASE/webapps/DMS
