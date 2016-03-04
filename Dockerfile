@@ -1,14 +1,14 @@
 FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
-ENV ANT_VERSION=1.7.1
-    TOMCAT_VERSION=7.0.68
-    MCC_DIR=/mcc
-    AMFAM_DIR=/amfam
-    CATALINA_HOME=/usr/local/apache-tomcat
-    CATALINA_BASE=/usr/local/apache-tomcat
-    PATH=$CATALINA_HOME/bin:$PATH
-    ANT_HOME=/usr/bin/ant
+ENV ANT_VERSION=1.7.1 \
+    TOMCAT_VERSION=7.0.68 \
+    MCC_DIR=/mcc \
+    AMFAM_DIR=/amfam \
+    CATALINA_HOME=/usr/local/apache-tomcat \
+    CATALINA_BASE=/usr/local/apache-tomcat \
+    PATH=$CATALINA_HOME/bin:$PATH \
+    ANT_HOME=/usr/bin/ant \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m"
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
