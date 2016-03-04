@@ -37,8 +37,7 @@ deploywar() {
     echo "DEPLOYING WAR..."
     
     cp ${MCC_DIR}/buildoutput/*.war $CATALINA_BASE/webapps/
-    rm -rf ${MCC_DIR}/Apps/CompModeler
-    
+
     # DMS
     rm -rf $CATALINA_BASE/webapps/DMS
     mkdir $CATALINA_BASE/webapps/DMS
@@ -48,8 +47,6 @@ deploywar() {
     rm -rf $CATALINA_BASE/webapps/IPA
     mkdir $CATALINA_BASE/webapps/IPA
     unzip -o $CATALINA_BASE/webapps/IPA.war -d $CATALINA_BASE/webapps/IPA
-    
-    rm -rf $CATALINA_BASE/webapps/*.war
 }
 
 patchdbproperties() {
