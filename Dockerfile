@@ -36,10 +36,10 @@ RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin
 
 # Copy DCM Installer
 USER root
-RUN mkdir -p /usr/local/dcm
-RUN mkdir -p $DATA_VOL_PATH
+RUN mkdir -p /usr/local/dcm && \
+    mkdir -p $DATA_VOL_PATH && \
+    mkdir -p /usr/local/dcm/jdbc
 COPY installer/setup.jar /usr/local/dcm/
-RUN mkdir -p /usr/local/dcm/jdbc
 COPY /jdbc/*.jar /usr/local/dcm/jdbc/
 COPY /jdbc/*.jar $CATALINA_HOME/lib/
 
