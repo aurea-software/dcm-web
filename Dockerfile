@@ -8,8 +8,7 @@ ENV ANT_VERSION=1.7.1 \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
     CATALINA_HOME=/usr/share/tomcat7 \
     CATALINA_BASE=/var/lib/tomcat7 \
-    PATH=$CATALINA_HOME/bin:$PATH \
-    CLASSPATH=/usr/local/apache-ant-${ANT_VERSION}/lib/*:/usr/local/dcm/jdbc/*:$CLASSPATH
+    PATH=$CATALINA_HOME/bin:$PATH
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
@@ -71,6 +70,7 @@ RUN ant Install -Denvironment=$DCM_ENV && \
 USER root
 
 # Enterprise Prerequisites
+ENV CLASSPATH /usr/local/apache-ant-${ANT_VERSION}/lib/*:/usr/local/dcm/jdbc/*:$CLASSPATH
 COPY installer/DCMEnterpriseInstaller.jar ${MCC_DIR}
 COPY installer/dcminstall.sh /usr/local/dcm/
 
