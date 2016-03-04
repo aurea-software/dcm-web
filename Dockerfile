@@ -1,14 +1,14 @@
 FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
-ENV ANT_VERSION=1.7.1
-    MCC_DIR=/mcc
-    DCM_ENV=DCM
-    ANT_HOME=/usr/bin/ant
-    ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m"
-    CATALINA_HOME=/usr/share/tomcat7
-    CATALINA_BASE=/var/lib/tomcat7
-    PATH=$CATALINA_HOME/bin:$PATH
+ENV ANT_VERSION=1.7.1 \
+    MCC_DIR=/mcc \
+    DCM_ENV=DCM \
+    ANT_HOME=/usr/bin/ant \
+    ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
+    CATALINA_HOME=/usr/share/tomcat7 \
+    CATALINA_BASE=/var/lib/tomcat7 \
+    PATH=$CATALINA_HOME/bin:$PATH \
     CLASSPATH=/usr/local/apache-ant-${ANT_VERSION}/lib/*:/usr/local/dcm/jdbc/*:$CLASSPATH
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk
