@@ -110,7 +110,8 @@ WORKDIR ${AMFAM_DIR}
 RUN ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
     ant DevBuild -Denvironment=$AMFAM_ENV -DuseXML=true && \
     rm -rf ${AMFAM_DIR}/*.log  && \
-    rm -rf ${MCC_DIR}/Apps/CompModeler
+    rm -rf ${MCC_DIR}/Apps/CompModeler && \
+    svn cleanup $AMFAM_DIR --username $SVN_USER --password $SVN_PASSWORD --no-auth-cache --non-interactive
 
 USER root
 
