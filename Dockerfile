@@ -2,13 +2,13 @@ FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION=1.7.1 \
-MCC_DIR=/mcc \
-DCM_ENV=DCM \
-ANT_HOME=/usr/bin/ant \
-ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
-CATALINA_HOME=/usr/share/tomcat7 \
-CATALINA_BASE=/var/lib/tomcat7 \
-PATH=$CATALINA_HOME/bin:$PATH
+    MCC_DIR=/mcc \
+    DCM_ENV=DCM \
+    ANT_HOME=/usr/bin/ant \
+    ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
+    CATALINA_HOME=/usr/share/tomcat7 \
+    CATALINA_BASE=/var/lib/tomcat7 \
+    PATH=$CATALINA_HOME/bin:$PATH
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
@@ -36,12 +36,13 @@ RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin
 
 # Copy DCM Installer
 USER root
-RUN mkdir -p /usr/local/dcm
-RUN mkdir -p $DATA_VOL_PATH
+RUN mkdir -p /usr/local/dcm && \
+    mkdir -p $DATA_VOL_PATH && \
+    mkdir -p /usr/local/dcm/jdbc
 COPY installer/setup.jar /usr/local/dcm/
-RUN mkdir -p /usr/local/dcm/jdbc
 COPY /jdbc/*.jar /usr/local/dcm/jdbc/
 COPY /jdbc/*.jar $CATALINA_HOME/lib/
+
 WORKDIR /
 RUN yes $MCC_DIR | java -classpath /usr/local/dcm/setup.jar run -console && \
     rm -rf /usr/local/dcm/setup.jar && \
@@ -61,6 +62,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
 # Generate war
 WORKDIR ${MCC_DIR}
 RUN ant Install -Denvironment=$DCM_ENV
+
 USER root
 
 # DCM Port
