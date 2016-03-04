@@ -37,7 +37,7 @@ WORKDIR /usr/local/
 # Install JAVA 7
 RUN \
     apt-get update -y && \
-    apt-get install -y --no-install-recommends openjdk-7-jdk wget unzip &&\
+    apt-get install -y --no-install-recommends openjdk-7-jdk wget unzip subversion &&\
     rm -rf /var/lib/apt/lists/*
 
 # Install ANT7
