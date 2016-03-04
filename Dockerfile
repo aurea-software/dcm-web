@@ -65,7 +65,8 @@ RUN sed -i "s#dcm.SchedulerInstall=.*#dcm.SchedulerInstall=true#g" ${MCC_DIR}/en
 
 # Generate war
 WORKDIR ${MCC_DIR}
-RUN ant Install -Denvironment=$DCM_ENV
+RUN ant Install -Denvironment=$DCM_ENV && \
+    rm -rf ${MCC_DIR}/Apps/CompModeler
 
 USER root
 
