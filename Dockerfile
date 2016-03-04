@@ -22,6 +22,7 @@ ARG DB_PASSWORD=mccuser
 ARG DATA_VOL_PATH=/data
 ARG SVN_PASSWORD="bCm&{:F>nuZ'23zN"
 ARG SVN_USER=service.dcm.teamcity
+ARG AMFAM_SVN_URL=https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015
 ARG MCCFORMULA_SOURCEDIR=${AMFAM_DIR}/temp_mccformula
 ARG LOGSDIR=${AMFAM_DIR}/logs
 ARG BASEDIR=${AMFAM_DIR}
@@ -53,7 +54,7 @@ RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apac
     mv apache-tomcat-$TOMCAT_VERSION apache-tomcat
 
 #Checkout AmFam from SVN
-RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015 $AMFAM_DIR --username $SVN_USER --password $SVN_PASSWORD --no-auth-cache --non-interactive
+RUN svn co $AMFAM_SVN_URL $AMFAM_DIR --username $SVN_USER --password $SVN_PASSWORD --no-auth-cache --non-interactive
 
 # Copy DCM Installer
 USER root
