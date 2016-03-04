@@ -1,15 +1,15 @@
-FROM java:7
+FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
-ENV ANT_VERSION 1.7.1
-ENV TOMCAT_VERSION 7.0.68
-ENV MCC_DIR /mcc
-ENV AMFAM_DIR /amfam
-ENV CATALINA_HOME /usr/local/apache-tomcat
-ENV CATALINA_BASE /usr/local/apache-tomcat
-ENV PATH $CATALINA_HOME/bin:$PATH
-ENV ANT_HOME /usr/bin/ant
-ENV ANT_OPTS "-XX:MaxPermSize=900m -Xmx900m"
+ENV ANT_VERSION=1.7.1
+    TOMCAT_VERSION=7.0.68
+    MCC_DIR=/mcc
+    AMFAM_DIR=/amfam
+    CATALINA_HOME=/usr/local/apache-tomcat
+    CATALINA_BASE=/usr/local/apache-tomcat
+    PATH=$CATALINA_HOME/bin:$PATH
+    ANT_HOME=/usr/bin/ant
+    ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m"
 
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
@@ -33,7 +33,12 @@ ARG WSSERVER_LOGSDIR=${AMFAM_DIR}/logs
 ARG SHAREDLOCATION=${AMFAM_DIR}
 
 WORKDIR /usr/local/
-RUN apt-get update -y
+
+# Install JAVA 7
+RUN \
+    apt-get update -y && \
+    apt-get install -y --no-install-recommends openjdk-7-jdk wget unzip &&\
+    rm -rf /var/lib/apt/lists/*
 
 # Install ANT7
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
@@ -59,6 +64,7 @@ COPY installer/setup.jar /usr/local/dcm/
 RUN mkdir -p /usr/local/dcm/jdbc
 COPY /jdbc/*.jar /usr/local/dcm/jdbc/
 COPY /jdbc/*.jar $CATALINA_HOME/lib/
+
 WORKDIR /
 RUN yes $MCC_DIR | java -classpath /usr/local/dcm/setup.jar run -console && \
     rm -rf /usr/local/dcm/setup.jar
@@ -98,7 +104,8 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
 WORKDIR ${MCC_DIR}
 RUN ant Install -Denvironment=$DCM_ENV
 RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/ && \
-    rm -rf ${AMFAM_DIR}/*.log
+    rm -rf ${AMFAM_DIR}/*.log && \
+    rm -rf ${MCC_DIR}/Apps/CompModeler
 
 WORKDIR ${AMFAM_DIR}
 RUN ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
