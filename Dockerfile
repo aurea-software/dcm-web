@@ -56,10 +56,11 @@ RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_
 
 # Copy DCM Installer
 USER root
-RUN mkdir -p /usr/local/dcm
-RUN mkdir -p $DATA_VOL_PATH
+RUN mkdir -p /usr/local/dcm && \
+    mkdir -p $DATA_VOL_PATH && \
+    mkdir -p /usr/local/dcm/jdbc
+
 COPY installer/setup.jar /usr/local/dcm/
-RUN mkdir -p /usr/local/dcm/jdbc
 COPY /jdbc/*.jar /usr/local/dcm/jdbc/
 COPY /jdbc/*.jar $CATALINA_HOME/lib/
 
@@ -102,13 +103,13 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
 WORKDIR ${MCC_DIR}
 RUN ant Install -Denvironment=$DCM_ENV
 RUN ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/ && \
-    rm -rf ${AMFAM_DIR}/*.log && \
-    rm -rf ${MCC_DIR}/Apps/CompModeler
+    rm -rf ${AMFAM_DIR}/*.log
 
 WORKDIR ${AMFAM_DIR}
 RUN ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
     ant DevBuild -Denvironment=$AMFAM_ENV -DuseXML=true && \
-    rm -rf ${AMFAM_DIR}/*.log
+    rm -rf ${AMFAM_DIR}/*.log  && \
+    rm -rf ${MCC_DIR}/Apps/CompModeler
 
 USER root
 
