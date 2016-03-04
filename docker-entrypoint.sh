@@ -21,36 +21,45 @@ fi
 generatedb() {
     echo "GENERATING DATABASE..."
 
-    # Set DCM Properties
-    sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${MCC_DIR}/environments/DCM_Environment.properties
-    sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${MCC_DIR}/environments/DCM_Environment.properties
+    # Set DCM 2015 Properties
+RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.JAVAHOME\]=.*#\[deploy.dms.JAVAHOME\]=${JAVAHOME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.JDBC_DRIVERPATH\]=.*#\[deploy.dms.JDBC_DRIVERPATH\]=${JDBC_DRIVERPATH}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.JDBC_DRIVER\]=.*#\[deploy.dms.JDBC_DRIVER\]=${JDBC_DRIVER}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.WEBSERVER\]=.*#\[deploy.dms.WEBSERVER\]=${WEBSERVER}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.WEBSERVERPORT\]=.*#\[deploy.dms.WEBSERVERPORT\]=${WEBSERVERPORT}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${MCC_DIR}/environments/DCM_Environment.properties
-    sed -i "s#\[deploy.dms.JDBC_DRIVERPATH\]=.*#\[deploy.dms.JDBC_DRIVERPATH\]=${JDBC_DRIVERPATH}#g" ${MCC_DIR}/environments/DCM_Environment.properties
-    sed -i "s#\[deploy.dms.JDBC_DRIVER\]=.*#\[deploy.dms.JDBC_DRIVER\]=${JDBC_DRIVER}#g" ${MCC_DIR}/environments/DCM_Environment.properties
-    
-    # Set DCM AmFam Properties
-    sed -i "s#\[deploy.dms.JDBC_DRIVERPATH\]=.*#\[deploy.dms.JDBC_DRIVERPATH\]=${JDBC_DRIVERPATH}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
-    sed -i "s#\[deploy.dms.JDBC_DRIVER\]=.*#\[deploy.dms.JDBC_DRIVER\]=${JDBC_DRIVER}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
-    sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
-    sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
-    sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties
+
+# Set DCM Athene Properties
+RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.JAVAHOME\]=.*#\[deploy.dms.JAVAHOME\]=${JAVAHOME}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.JDBC_DRIVERPATH\]=.*#\[deploy.dms.JDBC_DRIVERPATH\]=${JDBC_DRIVERPATH}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.JDBC_DRIVER\]=.*#\[deploy.dms.JDBC_DRIVER\]=${JDBC_DRIVER}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.WEBSERVER\]=.*#\[deploy.dms.WEBSERVER\]=${WEBSERVER}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.WEBSERVERPORT\]=.*#\[deploy.dms.WEBSERVERPORT\]=${WEBSERVERPORT}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.BASEDIR\]=.*#\[deploy.dms.BASEDIR\]=${BASEDIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.TABLESPACE\]=.*#\[deploy.dms.TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+	sed -i "s#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=.*#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties
     
     # Regenerate WAR with database
     cd ${MCC_DIR}
-    ant Install -Denvironment=${DCM_ENV} && \
-    ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/ && \
-    rm -rf ${MCC_DIR}/*.log
+    ant Install -Denvironment=${DCM_ENV}
 
-    cd ${AMFAM_DIR}
-    ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
-    ant DevBuild -Denvironment=Dev -DuseXML=true && \
-    rm -rf ${AMFAM_DIR}/*.log
+    cd ${ATHENE_DIR}
+    ant -f MergeBuildModFiles.xml PrepareBuildFile -Denvironment=${ATHENE_ENV} && \
+	ant PrepareEnvResources -Denvironment=${ATHENE_ENV} -Dproperty.modificationsfolder=${ATHENE_DIR}/mods/propertymods && \
+	ant DevBuild -Denvironment=${ATHENE_ENV} -DuseXML=true -DskipTZX=false -DcheckTS=false
 }
 
 deploywar() {
     echo "DEPLOYING WAR..."
     
-    cp ${AMFAM_DIR}/lib/*.war ${CATALINA_BASE}/webapps/
+    cp ${ATHENE_DIR}/lib/*.war ${CATALINA_BASE}/webapps/
 
     # DMS
     rm -rf ${CATALINA_BASE}/webapps/DMS
