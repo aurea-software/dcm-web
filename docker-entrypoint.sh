@@ -39,7 +39,8 @@ generatedb() {
     cd ${MCC_DIR}
     ant Install -Denvironment=${DCM_ENV} && \
     ant PrepareBuildFiles -Dbuild.mods=${AMFAM_DIR}/build/build_mods.xml -DPrepEnvResources.mods=${AMFAM_DIR}/build/PrepareEnvResources_mods.xml -DRunTools.mods=${AMFAM_DIR}/build/RunTools_mods.xml -DUniquenessFile=${AMFAM_DIR}/build/build_unique.xml -DOutputDir=${AMFAM_DIR}/ && \
-    rm -rf ${AMFAM_DIR}/*.log
+    rm -rf ${MCC_DIR}/*.log
+    rm -rf ${MCC_DIR}/Apps/CompModeler
 
     cd ${AMFAM_DIR}
     ant PrepareEnvResources -Denvironment=$AMFAM_ENV -Dproperty.modificationsfolder=${AMFAM_DIR}/mods/propertymods && \
@@ -56,6 +57,7 @@ deploywar() {
     rm -rf ${CATALINA_BASE}/webapps/DMS
     mkdir ${CATALINA_BASE}/webapps/DMS
     unzip -o ${CATALINA_BASE}/webapps/DMS.war -d ${CATALINA_BASE}/webapps/DMS
+    rm -rf $CATALINA_BASE/webapps/*.war
 }
 
 patchdbproperties() {
