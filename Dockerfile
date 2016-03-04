@@ -53,7 +53,7 @@ RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apac
     rm -rf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
     mv apache-tomcat-$TOMCAT_VERSION apache-tomcat
 
-#Checkout AmFam from SVN
+# Checkout AmFam from SVN
 RUN svn co $AMFAM_SVN_URL $AMFAM_DIR --username $SVN_USER --password $SVN_PASSWORD --no-auth-cache --non-interactive
 
 # Copy DCM Installer
@@ -80,8 +80,6 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
     sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${MCC_DIR}/environments/DCM_Environment.properties
-
-##Checkout AMFAM Branch##
 
 # Set DCM AmFam Properties
 RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${AMFAM_DIR}/environments/Dev_Environment.properties && \
