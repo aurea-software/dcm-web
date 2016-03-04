@@ -50,8 +50,7 @@ RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin
 RUN wget http://www.eu.apache.org/dist/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz && \
     tar -zxf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
     rm -rf apache-tomcat-$TOMCAT_VERSION.tar.gz && \
-    mv apache-tomcat-$TOMCAT_VERSION apache-tomcat && \
-    apt-get install -y subversion
+    mv apache-tomcat-$TOMCAT_VERSION apache-tomcat
 
 #Checkout AmFam from SVN
 RUN svn co https://subversion.devfactory.com/repos/FinSvcs_AMFAM/branches/AMFAM_upgrade_2015 $AMFAM_DIR --username $SVN_USER --password $SVN_PASSWORD --no-auth-cache --non-interactive
