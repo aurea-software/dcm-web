@@ -11,10 +11,9 @@ ENV ANT_VERSION=1.6.5 \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
     PATH=$CATALINA_HOME/bin:$PATH 
     BASEDIR=${ATHENE_DIR}
-	DCM_ENV=DCM
-	ATHENE_ENV=Build
+    DCM_ENV=DCM
+    ATHENE_ENV=Build
     
-
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
 ARG JDBC_DRIVER=org.postgresql.Driver
@@ -88,7 +87,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
     sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.BASEDIR\]=.*#\[deploy.dms.BASEDIR\]=${BASEDIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.TABLESPACE\]=.*#\[deploy.dms.TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
-	sed -i "s#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=.*#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties
+    sed -i "s#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=.*#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties
     
 # Install DCM 2015
 WORKDIR ${MCC_DIR}
@@ -98,9 +97,15 @@ RUN ant Install -Denvironment=$DCM_ENV
 WORKDIR ${ATHENE_DIR}
 RUN ant -f MergeBuildModFiles.xml PrepareBuildFile -Denvironment=$ATHENE_ENV && \
 	ant PrepareEnvResources -Denvironment=$ATHENE_ENV -Dproperty.modificationsfolder=${ATHENE_DIR}/mods/propertymods && \
-	ant DevBuild -Denvironment=$ATHENE_ENV -DuseXML=true -DskipTZX=false -DcheckTS=false && \
-	rm -rf ${MCC_DIR}/Apps/CompModeler && \
-    svn cleanup $ATHENE_DIR --username $SVN_USER --password $SVN_PASSWORD --no-auth-cache --non-interactive
+	ant DevBuild -Denvironment=$ATHENE_ENV -DuseXML=true -DskipTZX=false -DcheckTS=false
+	
+# Recreate DCM DB
+WORKDIR ${MCC_DIR}
+RUN ant RecreateDB -Denvironment=$DCM_ENV
+
+# Re-generate DCM Athene WAR 
+WORKDIR ${ATHENE_DIR}
+RUN ant DevBuild -Denvironment=$ATHENE_ENV -DuseXML=true -DskipTZX=false -DcheckTS=false
 
 USER root
 
