@@ -87,7 +87,10 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
     sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.BASEDIR\]=.*#\[deploy.dms.BASEDIR\]=${BASEDIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.TABLESPACE\]=.*#\[deploy.dms.TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
-    sed -i "s#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=.*#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties
+    sed -i "s#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=.*#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[dcm.NIPRGatewayInstall\]=.*#\[dcm.NIPRGatewayInstall\]=false#g" ${ATHENE_DIR}/environments/templates/build.properties && \
+    sed -i "s#\[dcm.WEBEFTInstall\]=.*#\[dcm.WEBEFTInstall\]=true#g" ${ATHENE_DIR}/environments/templates/build.properties && \
+    sed -i "s#\[dcm.genJSPpages\]=.*#\[dcm.genJSPpages\]=true#g" ${ATHENE_DIR}/environments/templates/build.properties
     
 # Install DCM 2015
 WORKDIR ${MCC_DIR}
