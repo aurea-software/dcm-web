@@ -73,7 +73,10 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
     sed -i "s#\[deploy.dms.WEBSERVERPORT\]=.*#\[deploy.dms.WEBSERVERPORT\]=${WEBSERVERPORT}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
-    sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${MCC_DIR}/environments/DCM_Environment.properties
+    sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[dcm.NIPRGatewayInstall\]=.*#\[dcm.NIPRGatewayInstall\]=false#g" ${MCC_DIR}/environments/templates/build.properties && \
+    sed -i "s#\[dcm.WEBEFTInstall\]=.*#\[dcm.WEBEFTInstall\]=true#g" ${MCC_DIR}/environments/templates/build.properties && \
+    sed -i "s#\[dcm.genJSPpages\]=.*#\[dcm.genJSPpages\]=true#g" ${MCC_DIR}/environments/templates/build.properties
 
 # Set DCM Athene Properties
 RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
@@ -87,10 +90,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${A
     sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.BASEDIR\]=.*#\[deploy.dms.BASEDIR\]=${BASEDIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.TABLESPACE\]=.*#\[deploy.dms.TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
-    sed -i "s#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=.*#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
-    sed -i "s#\[dcm.NIPRGatewayInstall\]=.*#\[dcm.NIPRGatewayInstall\]=false#g" ${ATHENE_DIR}/environments/templates/build.properties && \
-    sed -i "s#\[dcm.WEBEFTInstall\]=.*#\[dcm.WEBEFTInstall\]=true#g" ${ATHENE_DIR}/environments/templates/build.properties && \
-    sed -i "s#\[dcm.genJSPpages\]=.*#\[dcm.genJSPpages\]=true#g" ${ATHENE_DIR}/environments/templates/build.properties
+    sed -i "s#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=.*#\[deploy.dms.ORACLE_INDEX_TABLESPACE\]=#g" ${ATHENE_DIR}/environments/Build_Environment.properties
     
 # Install DCM 2015
 WORKDIR ${MCC_DIR}
@@ -101,14 +101,6 @@ WORKDIR ${ATHENE_DIR}
 RUN ant -f MergeBuildModFiles.xml PrepareBuildFile -Denvironment=$ATHENE_ENV && \
 	ant PrepareEnvResources -Denvironment=$ATHENE_ENV -Dproperty.modificationsfolder=${ATHENE_DIR}/mods/propertymods && \
 	ant DevBuild -Denvironment=$ATHENE_ENV -DuseXML=true -DskipTZX=false -DcheckTS=false
-	
-# Recreate DCM DB
-WORKDIR ${MCC_DIR}
-RUN ant RecreateDB -Denvironment=$DCM_ENV
-
-# Re-generate DCM Athene WAR 
-WORKDIR ${ATHENE_DIR}
-RUN ant DevBuild -Denvironment=$ATHENE_ENV -DuseXML=true -DskipTZX=false -DcheckTS=false
 
 USER root
 
