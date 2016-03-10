@@ -9,9 +9,9 @@ ENV ANT_VERSION=1.6.5 \
     CATALINA_BASE=/usr/local/apache-tomcat \
     ANT_HOME=/usr/bin/ant \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
-    PATH=$CATALINA_HOME/bin:$PATH 
-    BASEDIR=${ATHENE_DIR}
-    DCM_ENV=DCM
+    PATH=$CATALINA_HOME/bin:$PATH \
+    BASEDIR=${ATHENE_DIR} \
+    DCM_ENV=DCM \
     ATHENE_ENV=Build
     
 ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64
