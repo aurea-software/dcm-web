@@ -27,6 +27,8 @@ ARG SVN_PASSWORD="bCm&{:F>nuZ'23zN"
 ARG SVN_USER=service.dcm.teamcity
 ARG ATHENE_SVN_URL=https://subversion.devfactory.com/repos/Aviva/branches/aakash/R1C7_DefectsFix
 
+ENV JAVA_TOOL_OPTIONS -Dfile.encoding=UTF8
+
 WORKDIR /usr/local/
 
 # Install JAVA 7
