@@ -10,7 +10,6 @@ ENV ANT_VERSION=1.6.5 \
     ANT_HOME=/usr/bin/ant \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
     PATH=$CATALINA_HOME/bin:$PATH \
-    BASEDIR=${ATHENE_DIR} \
     DCM_ENV=DCM \
     ATHENE_ENV=Build
     
@@ -23,6 +22,7 @@ ARG JDBC_URL=jdbc:postgresql://172.30.86.40:5436/mccdb
 ARG DB_USERNAME=mccuser
 ARG DB_PASSWORD=mccuser
 ARG DATA_VOL_PATH=/data
+ARG BASEDIR=${ATHENE_DIR}
 ARG SVN_PASSWORD="bCm&{:F>nuZ'23zN"
 ARG SVN_USER=service.dcm.teamcity
 ARG ATHENE_SVN_URL=https://subversion.devfactory.com/repos/Aviva/branches/aakash/R1C7_DefectsFix
