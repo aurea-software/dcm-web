@@ -13,7 +13,7 @@ ENV ANT_VERSION=1.6.5 \
     DCM_ENV=DCM \
     ATHENE_ENV=Build
     
-ARG JAVAHOME=/usr/lib/jvm/java-6-openjdk-amd64
+ARG JAVAHOME=/usr/lib/jvm/java-6-openjdk-amd64/
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
 ARG JDBC_DRIVER=org.postgresql.Driver
 ARG WEBSERVER=localhost
