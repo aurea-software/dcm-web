@@ -37,7 +37,7 @@ RUN \
     apt-get install -y --no-install-recommends openjdk-7-jdk wget unzip subversion &&\
     rm -rf /var/lib/apt/lists/*
 
-# Install ANT165
+# Install ANT
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
     tar -zxf apache-ant-$ANT_VERSION-bin.tar.gz && \
     rm -rf apache-ant-$ANT_VERSION-bin.tar.gz && \
