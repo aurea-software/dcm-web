@@ -1,7 +1,7 @@
 FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
-ENV ANT_VERSION=1.6.2 \
+ENV ANT_VERSION=1.6.5 \
     TOMCAT_VERSION=7.0.68 \
     MCC_DIR=/mcc \
     ATHENE_DIR=/athene \
@@ -34,7 +34,7 @@ WORKDIR /usr/local/
 # Install JAVA 7
 RUN \
     apt-get update -y && \
-    apt-get install -y --no-install-recommends openjdk-7-jdk wget unzip subversion &&\
+    apt-get install -y --no-install-recommends openjdk-6-jdk wget unzip subversion &&\
     rm -rf /var/lib/apt/lists/*
 
 # Install ANT
