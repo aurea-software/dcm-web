@@ -1,7 +1,7 @@
 FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
-ENV ANT_VERSION=1.6.0 \
+ENV ANT_VERSION=1.6.2 \
     TOMCAT_VERSION=7.0.68 \
     MCC_DIR=/mcc \
     ATHENE_DIR=/athene \
