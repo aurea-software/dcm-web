@@ -1,4 +1,4 @@
-FROM debian:7.7
+FROM phusion/baseimage
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION=1.6.5 \
