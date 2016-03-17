@@ -1,4 +1,4 @@
-FROM debian:7.7
+FROM ubuntu:latest
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION=1.6.5 \
@@ -8,7 +8,7 @@ ENV ANT_VERSION=1.6.5 \
     CATALINA_HOME=/usr/local/apache-tomcat \
     CATALINA_BASE=/usr/local/apache-tomcat \
     ANT_HOME=/usr/bin/ant \
-    JAVAHOME=/usr/lib/jvm/java-6-openjdk-amd64/ \
+    JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64/ \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
     PATH=$CATALINA_HOME/bin:$JAVAHOME/bin:$PATH \
     DCM_ENV=DCM \
@@ -32,7 +32,7 @@ WORKDIR /usr/local/
 # Install JAVA 7
 RUN \
     apt-get update -y && \
-    apt-get install -y openjdk-6-jdk wget unzip subversion &&\
+    apt-get install -y openjdk-7-jdk wget unzip subversion &&\
     rm -rf /var/lib/apt/lists/*
 
 # Install ANT
