@@ -8,7 +8,8 @@ ENV ANT_VERSION=1.6.5 \
     CATALINA_HOME=/usr/local/apache-tomcat \
     CATALINA_BASE=/usr/local/apache-tomcat \
     ANT_HOME=/usr/bin/ant \
-    JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64/ \
+    #JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64/ \
+    JAVA_HOME=/usr/lib/jvm/java-7-oracle \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
     PATH=$CATALINA_HOME/bin:$JAVAHOME/bin:$PATH \
     DCM_ENV=DCM \
@@ -29,11 +30,16 @@ ARG ATHENE_SVN_URL=https://subversion.devfactory.com/repos/Aviva/branches/aakash
 
 WORKDIR /usr/local/
 
+RUN apt-add-repository -y ppa:webupd8team/java \
+ && apt-get update -y \
+ && echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
+ && apt-get install -y unzip oracle-java7-installer
+
 # Install JAVA 7
-RUN \
-    apt-get update -y && \
-    apt-get install -y openjdk-7-jdk wget unzip subversion &&\
-    rm -rf /var/lib/apt/lists/*
+#RUN \
+#    apt-get update -y && \
+#    apt-get install -y openjdk-7-jdk wget unzip subversion &&\
+#    rm -rf /var/lib/apt/lists/*
 
 # Install ANT
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
