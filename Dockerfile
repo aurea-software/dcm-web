@@ -33,7 +33,7 @@ WORKDIR /usr/local/
 RUN apt-add-repository -y ppa:webupd8team/java \
  && apt-get update -y \
  && echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
- && apt-get install -y unzip oracle-java7-installer
+ && apt-get install -y wget unzip subversion oracle-java7-installer
 
 # Install JAVA 7
 #RUN \
