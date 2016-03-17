@@ -8,7 +8,7 @@ ENV ANT_VERSION=1.6.5 \
     CATALINA_HOME=/usr/local/apache-tomcat \
     CATALINA_BASE=/usr/local/apache-tomcat \
     ANT_HOME=/usr/bin/ant \
-    JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64/ \
+    JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
     #JAVA_HOME=/usr/lib/jvm/java-7-oracle \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
     PATH=$CATALINA_HOME/bin:$JAVA_HOME/bin:$PATH \
