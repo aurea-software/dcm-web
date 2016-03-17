@@ -35,10 +35,10 @@ WORKDIR /usr/local/
 # && echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
 # && apt-get install -y wget unzip subversion oracle-java7-installer
 
-# Install JAVA 6
+# Install JAVA 7
 RUN \
     apt-get update -y && \
-    apt-get install -y openjdk-6-jdk wget unzip subversion &&\
+    apt-get install -y openjdk-7-jdk wget unzip subversion &&\
     rm -rf /var/lib/apt/lists/*
 
 # Install ANT
