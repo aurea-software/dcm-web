@@ -67,7 +67,7 @@ COPY /jdbc/*.jar /usr/local/dcm/jdbc/
 COPY /jdbc/*.jar $CATALINA_HOME/lib/
 
 WORKDIR /
-RUN yes $MCC_DIR | java -cp /usr/local/dcm/setup.jar run -console && \
+RUN yes $MCC_DIR | java -classpath /usr/local/dcm/setup.jar run -console && \
     rm -rf /usr/local/dcm/setup.jar
 
 # Set DCM 2015 Properties
