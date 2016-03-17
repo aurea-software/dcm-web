@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION=1.6.5 \
@@ -61,7 +61,7 @@ COPY /jdbc/*.jar /usr/local/dcm/jdbc/
 COPY /jdbc/*.jar $CATALINA_HOME/lib/
 
 WORKDIR /
-RUN yes $MCC_DIR | java -classpath /usr/local/dcm/setup.jar run -console && \
+RUN yes $MCC_DIR | java -cp /usr/local/dcm/setup.jar run -console && \
     rm -rf /usr/local/dcm/setup.jar
 
 # Set DCM 2015 Properties
