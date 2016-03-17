@@ -11,7 +11,7 @@ ENV ANT_VERSION=1.6.5 \
     #JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64/ \
     JAVA_HOME=/usr/lib/jvm/java-7-oracle \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
-    PATH=$CATALINA_HOME/bin:$JAVAHOME/bin:$PATH \
+    PATH=$CATALINA_HOME/bin:$JAVA_HOME/bin:$PATH \
     DCM_ENV=DCM \
     ATHENE_ENV=Build
     
@@ -72,7 +72,7 @@ RUN yes $MCC_DIR | java -cp /usr/local/dcm/setup.jar run -console && \
 
 # Set DCM 2015 Properties
 RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
-    sed -i "s#\[deploy.dms.JAVAHOME\]=.*#\[deploy.dms.JAVAHOME\]=${JAVAHOME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
+    sed -i "s#\[deploy.dms.JAVAHOME\]=.*#\[deploy.dms.JAVAHOME\]=${JAVA_HOME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_DRIVERPATH\]=.*#\[deploy.dms.JDBC_DRIVERPATH\]=${JDBC_DRIVERPATH}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_DRIVER\]=.*#\[deploy.dms.JDBC_DRIVER\]=${JDBC_DRIVER}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.WEBSERVER\]=.*#\[deploy.dms.WEBSERVER\]=${WEBSERVER}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
@@ -86,7 +86,7 @@ RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${M
 
 # Set DCM Athene Properties
 RUN sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
-    sed -i "s#\[deploy.dms.JAVAHOME\]=.*#\[deploy.dms.JAVAHOME\]=${JAVAHOME}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
+    sed -i "s#\[deploy.dms.JAVAHOME\]=.*#\[deploy.dms.JAVAHOME\]=${JAVA_HOME}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_DRIVERPATH\]=.*#\[deploy.dms.JDBC_DRIVERPATH\]=${JDBC_DRIVERPATH}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.JDBC_DRIVER\]=.*#\[deploy.dms.JDBC_DRIVER\]=${JDBC_DRIVER}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
     sed -i "s#\[deploy.dms.WEBSERVER\]=.*#\[deploy.dms.WEBSERVER\]=${WEBSERVER}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
