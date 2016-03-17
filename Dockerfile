@@ -35,7 +35,7 @@ WORKDIR /usr/local/
 # && echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
 # && apt-get install -y wget unzip subversion oracle-java7-installer
 
- Install JAVA 6
+# Install JAVA 6
 RUN \
     apt-get update -y && \
     apt-get install -y openjdk-6-jdk wget unzip subversion &&\
