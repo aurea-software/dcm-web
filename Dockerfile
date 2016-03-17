@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM debian:7.7
 MAINTAINER Alexey Melnikov <alexey.melnikov@aurea.com> - Aly Saleh <aly.saleh@aurea.com>
 
 ENV ANT_VERSION=1.6.5 \
@@ -8,8 +8,8 @@ ENV ANT_VERSION=1.6.5 \
     CATALINA_HOME=/usr/local/apache-tomcat \
     CATALINA_BASE=/usr/local/apache-tomcat \
     ANT_HOME=/usr/bin/ant \
-    #JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64/ \
-    JAVA_HOME=/usr/lib/jvm/java-7-oracle \
+    JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64/ \
+    #JAVA_HOME=/usr/lib/jvm/java-7-oracle \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
     PATH=$CATALINA_HOME/bin:$JAVA_HOME/bin:$PATH \
     DCM_ENV=DCM \
@@ -30,16 +30,16 @@ ARG ATHENE_SVN_URL=https://subversion.devfactory.com/repos/Aviva/branches/aakash
 
 WORKDIR /usr/local/
 
-RUN apt-add-repository -y ppa:webupd8team/java \
- && apt-get update -y \
- && echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
- && apt-get install -y wget unzip subversion oracle-java7-installer
+#RUN apt-add-repository -y ppa:webupd8team/java \
+# && apt-get update -y \
+# && echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
+# && apt-get install -y wget unzip subversion oracle-java7-installer
 
-# Install JAVA 7
-#RUN \
-#    apt-get update -y && \
-#    apt-get install -y openjdk-7-jdk wget unzip subversion &&\
-#    rm -rf /var/lib/apt/lists/*
+ Install JAVA 6
+RUN \
+    apt-get update -y && \
+    apt-get install -y openjdk-6-jdk wget unzip subversion &&\
+    rm -rf /var/lib/apt/lists/*
 
 # Install ANT
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz && \
