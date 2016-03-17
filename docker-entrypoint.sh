@@ -31,9 +31,9 @@ generatedb() {
     sed -i "s#\[deploy.dms.JDBC_URL\]=.*#\[deploy.dms.JDBC_URL\]=${JDBC_URL}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_USERNAME\]=.*#\[deploy.dms.DB_USERNAME\]=${DB_USERNAME}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
     sed -i "s#\[deploy.dms.DB_PASSWORD\]=.*#\[deploy.dms.DB_PASSWORD\]=${DB_PASSWORD}#g" ${MCC_DIR}/environments/DCM_Environment.properties && \
-    sed -i "s#\[dcm.NIPRGatewayInstall\]=.*#\[dcm.NIPRGatewayInstall\]=false#g" ${MCC_DIR}/environments/templates/build.properties && \
-    sed -i "s#\[dcm.WEBEFTInstall\]=.*#\[dcm.WEBEFTInstall\]=true#g" ${MCC_DIR}/environments/templates/build.properties && \
-    sed -i "s#\[dcm.genJSPpages\]=.*#\[dcm.genJSPpages\]=true#g" ${MCC_DIR}/environments/templates/build.properties
+    sed -i "s#dcm.NIPRGatewayInstall=.*#dcm.NIPRGatewayInstall=false#g" ${MCC_DIR}/environments/templates/build.properties && \
+    sed -i "s#dcm.WEBEFTInstall=.*#dcm.WEBEFTInstall=true#g" ${MCC_DIR}/environments/templates/build.properties && \
+    sed -i "s#dcm.genJSPpages=.*#dcm.genJSPpages=true#g" ${MCC_DIR}/environments/templates/build.properties
 
 # Set DCM Athene Properties
     sed -i "s#\[deploy.dms.MCCHOME\]=.*#\[deploy.dms.MCCHOME\]=${MCC_DIR}#g" ${ATHENE_DIR}/environments/Build_Environment.properties && \
