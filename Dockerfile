@@ -8,12 +8,12 @@ ENV ANT_VERSION=1.6.5 \
     CATALINA_HOME=/usr/local/apache-tomcat \
     CATALINA_BASE=/usr/local/apache-tomcat \
     ANT_HOME=/usr/bin/ant \
+    JAVAHOME=/usr/lib/jvm/java-6-openjdk-amd64/ \
     ANT_OPTS="-XX:MaxPermSize=900m -Xmx900m" \
-    PATH=$CATALINA_HOME/bin:$PATH \
+    PATH=$CATALINA_HOME/bin:$JAVAHOME/bin:$PATH \
     DCM_ENV=DCM \
     ATHENE_ENV=Build
     
-ARG JAVAHOME=/usr/lib/jvm/java-7-openjdk-amd64/
 ARG JDBC_DRIVERPATH=/usr/local/dcm/jdbc/postgresql-9.2-1004.jdbc3.jar
 ARG JDBC_DRIVER=org.postgresql.Driver
 ARG WEBSERVER=localhost
@@ -34,7 +34,7 @@ WORKDIR /usr/local/
 # Install JAVA 7
 RUN \
     apt-get update -y && \
-    apt-get install -y --no-install-recommends openjdk-7-jdk wget unzip subversion &&\
+    apt-get install -y openjdk-6-jdk wget unzip subversion &&\
     rm -rf /var/lib/apt/lists/*
 
 # Install ANT
