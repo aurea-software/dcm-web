@@ -128,6 +128,7 @@ patchnipr() {
         # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/DBIntegrationManager.properties
         if [ "$NIPR_BETA" == "true" -o "$NIPR_BETA" == "TRUE" ]; then
             sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBIntegrationManager.properties
+            sed -i "s#https://pdb-services.nipr.com/#https://pdb-services-beta.nipr.com/#g" $CATALINA_BASE/webapps/DMS/WEB-INF/classes/com/trilogy/fs/dms/niprgateway/GatewayIntegration.properties
         fi
 
         # DMS/WEB-INF/classes/com/trilogy/fs/dms/pdb/PDBReportProcessor.properties
