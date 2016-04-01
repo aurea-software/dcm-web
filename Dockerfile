@@ -35,6 +35,9 @@ RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin
     ln -s /usr/local/apache-ant-$ANT_VERSION/bin/ant /usr/bin/ant
 
 # Copy DCM Installer
+# Copied files need to be downloaded and
+# not copied so it can be removed from 
+# the image, otherwise it will remain.
 USER root
 RUN mkdir -p /usr/local/dcm && \
     mkdir -p $DATA_VOL_PATH && \
